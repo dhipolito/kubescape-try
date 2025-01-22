@@ -8,7 +8,7 @@ jobs:
       - run: ls ./templates
       - name: Install Git
         run: sudo apt-get update && sudo apt-get install -y git
-      - uses: kubescape/github-action@main
+      - uses: kubescape/github-action@v3.03
         continue-on-error: true
         with:
           format: sarif
