@@ -20,7 +20,6 @@ jobs:
       # account: ${{secrets.KUBESCAPE_ACCOUNT}}
       # # Optional: Scan a specific path. Default will scan the whole repository
       # files: "examples/*.yaml"
-      - run: head -n 50 results.sarif
       - name: Upload Kubescape scan results to Github Code Scanning
         uses: github/codeql-action/upload-sarif@v3
         with:
