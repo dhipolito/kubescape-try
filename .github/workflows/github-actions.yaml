@@ -5,6 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - run: ls ./templates
       - uses: kubescape/github-action@main
         continue-on-error: true
         with:
