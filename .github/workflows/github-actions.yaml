@@ -11,7 +11,7 @@ jobs:
         name: Kubescape scan
         with:
           format: sarif
-          outputFile: results
+          outputFile: results.sarif
       - uses: github/codeql-action/upload-sarif@v3
         name: Upload scan results to Github Code Scanning
         with:
