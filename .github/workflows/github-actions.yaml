@@ -2,11 +2,11 @@ name: Kubescape scanning for misconfigurations
 on: [push, pull_request]
 jobs:
   kubescape:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
       - run: ls ./templates
-      - uses: kubescape/github-action@v3.04
+      - uses: kubescape/github-action@main
         continue-on-error: true
         with:
           format: sarif
