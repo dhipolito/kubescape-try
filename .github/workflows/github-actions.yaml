@@ -6,12 +6,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: ls ./templates
+      - name: Install Git
+        run: sudo apt-get update && sudo apt-get install -y git
       - uses: kubescape/github-action@main
         continue-on-error: true
         with:
           format: sarif
           files: ./templates/*.yaml
           outputFile: results.sarif
+          verbose: true
           # # Optional: Specify the Kubescape cloud account ID
           # account: ${{secrets.KUBESCAPE_ACCOUNT}}
           # # Optional: Scan a specific path. Default will scan the whole repository
