@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PodTemplate
+metadata:
+  name: my-pod-template
+  labels:
+    app: my-app
+template:
+  metadata:
+    labels:
+      app: my-app
+  spec:
+    containers:
+      - name: my-container
+        image: nginx:1.21
+        ports:
+          - containerPort: 80

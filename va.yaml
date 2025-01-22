@@ -1,0 +1,9 @@
+apiVersion: storage.k8s.io/v1
+kind: VolumeAttachment
+metadata:
+  name: example-volume-attachment
+spec:
+  attacher: example-csidriver.k8s.io
+  source:
+    persistentVolumeName: example-pv
+  nodeName: node-1

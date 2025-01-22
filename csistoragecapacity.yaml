@@ -1,0 +1,9 @@
+apiVersion: storage.k8s.io/v1
+kind: CSIStorageCapacity
+metadata:
+  name: example-csi-storage-capacity
+storageClassName: example-storage-class
+capacity: 150Mi
+nodeTopology:
+  matchLabels:
+    topology.kubernetes.io/zone: us-west1-a

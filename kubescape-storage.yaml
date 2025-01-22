@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    meta.helm.sh/release-name: kubescape
+    meta.helm.sh/release-namespace: kubescape
+  creationTimestamp: "2025-01-07T01:02:05Z"
+  finalizers:
+  - kubernetes.io/pvc-protection
+  labels:
+    app: storage
+    app.kubernetes.io/component: storage
+    app.kubernetes.io/instance: kubescape
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kubescape-operator
+    app.kubernetes.io/part-of: kubescape-storage
+    app.kubernetes.io/version: 1.24.2
+    helm.sh/chart: kubescape-operator-1.24.2
+    kubescape.io/ignore: "true"
+    tier: ks-control-plane
+  name: kubescape-storage
+  namespace: kubescape
+  resourceVersion: "3058"
+  uid: e24fb268-f3b8-4aa1-8a83-2e08073f0de4
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  volumeMode: Filesystem
+status:
+  phase: Pending

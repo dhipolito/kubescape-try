@@ -1,0 +1,10 @@
+apiVersion: storage.k8s.io/v1
+kind: CSINode
+metadata:
+  name: node1
+spec:
+  drivers:
+    - name: example-csidriver
+      nodeID: node1
+      topologyKeys:
+        - topology.kubernetes.io/zone
