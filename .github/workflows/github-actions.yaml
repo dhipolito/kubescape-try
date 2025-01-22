@@ -1,18 +1,27 @@
-name: Kubescape scan manifest files
-run-name: Scan manifest files
-on: [push]
+name: Kubescape scanning for misconfigurations
+on: [push, pull_request]
 jobs:
   kubescape:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
-      - uses: kubescape/github-action@main
-        continue-on-error: true
-        name: Kubescape scan
+      # - name: install Kubescape
+      #   run: |
+      #     curl -s https://raw.githubusercontent.com/kubescape/kubescape/master/install.sh | /bin/bash
+      #     kubescape scan  framework all  ./templates --format sarif --output results
+      # - uses: kubescape/github-action@main
+      #   continue-on-error: true
+      #   with:
+      #     format: sarif
+      #     files: ./templates/*.yaml
+      #     outputFile: results.sarif
+      #     verbose: true
+      # # Optional: Specify the Kubescape cloud account ID
+      # account: ${{secrets.KUBESCAPE_ACCOUNT}}
+      # # Optional: Scan a specific path. Default will scan the whole repository
+      # files: "examples/*.yaml"
+      - run: head -n 50 test.sarif
+      - name: Upload Kubescape scan results to Github Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
         with:
-          format: sarif
-          outputFile: results
-      - uses: github/codeql-action/upload-sarif@v3
-        name: Upload scan results to Github Code Scanning
-        with:
-          sarif_file: results.sarif
+          sarif_file: test.sarif

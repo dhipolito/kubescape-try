@@ -1,0 +1,4146 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "informationUri": "https://armosec.io",
+          "name": "kubescape",
+          "rules": [
+            {
+              "id": "C-0237",
+              "shortDescription": {
+                "text": "Check if signature exists"
+              },
+              "fullDescription": {
+                "text": "Ensures that all images contain some signature"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "help": {
+                "text": "Remediation: Replace the image with a signed image"
+              }
+            },
+            {
+              "id": "C-0076",
+              "shortDescription": {
+                "text": "Label usage for resources"
+              },
+              "fullDescription": {
+                "text": "It is recommended to set labels that identify semantic attributes of your application or deployment. For example, { app: myapp, tier: frontend, phase: test, deployment: v3 }. These labels can used to assign policies to logical groups of the deployments as well as for presentation and tracking purposes. This control helps you find deployments without any of the expected labels."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "help": {
+                "text": "Remediation: Define labels that are most suitable to your needs of use the exceptions to prevent further notifications."
+              }
+            },
+            {
+              "id": "C-0013",
+              "shortDescription": {
+                "text": "Non-root containers"
+              },
+              "fullDescription": {
+                "text": "Potential attackers may gain access to a container and leverage its existing privileges to conduct an attack. Therefore, it is not recommended to deploy containers with root privileges unless it is absolutely necessary. This control identifies all the pods running as root or can escalate to root."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "help": {
+                "text": "Remediation: If your application does not need root privileges, make sure to define runAsNonRoot as true or explicitly set the runAsUser using ID 1000 or higher under the PodSecurityContext or container securityContext. In addition, set an explicit value for runAsGroup using ID 1000 or higher."
+              }
+            },
+            {
+              "id": "C-0056",
+              "shortDescription": {
+                "text": "Configured liveness probe"
+              },
+              "fullDescription": {
+                "text": "Liveness probe is intended to ensure that workload remains healthy during its entire execution lifecycle, or otherwise restrat the container. It is highly recommended to define liveness probe for every worker container. This control finds all the pods where the Liveness probe is not configured."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "help": {
+                "text": "Remediation: Ensure Liveness probes are configured wherever possible."
+              }
+            },
+            {
+              "id": "C-0210",
+              "shortDescription": {
+                "text": "CIS-5.7.2 Ensure that the seccomp profile is set to docker/default in your pod definitions"
+              },
+              "fullDescription": {
+                "text": "Enable `docker/default` seccomp profile in your pod definitions."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "help": {
+                "text": "Remediation: Use security context to enable the `docker/default` seccomp profile in your pod definitions. An example is as below:\n\n \n```\n  securityContext:\n    seccompProfile:\n      type: RuntimeDefault\n\n```"
+              }
+            },
+            {
+              "id": "C-0017",
+              "shortDescription": {
+                "text": "Immutable container filesystem"
+              },
+              "fullDescription": {
+                "text": "Mutable container filesystem can be abused to inject malicious code or data into containers. Use immutable (read-only) filesystem to limit potential attacks."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "help": {
+                "text": "Remediation: Set the filesystem of the container to read-only when possible (pod securityContext, readOnlyRootFilesystem: true). If containers application needs to write into the filesystem, it is recommended to mount secondary filesystems for specific directories where application require write access."
+              }
+            },
+            {
+              "id": "C-0211",
+              "shortDescription": {
+                "text": "CIS-5.7.3 Apply Security Context to Your Pods and Containers"
+              },
+              "fullDescription": {
+                "text": "Apply Security Context to Your Pods and Containers"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "help": {
+                "text": "Remediation: Follow the Kubernetes documentation and apply security contexts to your pods. For a suggested list of security contexts, you may refer to the CIS Security Benchmark for Docker Containers."
+              }
+            },
+            {
+              "id": "C-0270",
+              "shortDescription": {
+                "text": "Ensure CPU limits are set"
+              },
+              "fullDescription": {
+                "text": "This control identifies all Pods for which the CPU limits are not set."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "help": {
+                "text": "Remediation: Set the CPU limits or use exception mechanism to avoid unnecessary notifications."
+              }
+            },
+            {
+              "id": "C-0271",
+              "shortDescription": {
+                "text": "Ensure memory limits are set"
+              },
+              "fullDescription": {
+                "text": "This control identifies all Pods for which the memory limits are not set."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "help": {
+                "text": "Remediation: Set the memory limits or use exception mechanism to avoid unnecessary notifications."
+              }
+            },
+            {
+              "id": "C-0061",
+              "shortDescription": {
+                "text": "Pods in default namespace"
+              },
+              "fullDescription": {
+                "text": "It is recommended to avoid running pods in cluster without explicit namespace assignment. This control identifies all the pods running in the default namespace."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "help": {
+                "text": "Remediation: Create necessary namespaces and move all the pods from default namespace there."
+              }
+            },
+            {
+              "id": "C-0016",
+              "shortDescription": {
+                "text": "Allow privilege escalation"
+              },
+              "fullDescription": {
+                "text": "Attackers may gain access to a container and uplift its privilege to enable excessive capabilities."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "help": {
+                "text": "Remediation: If your application does not need it, make sure the allowPrivilegeEscalation field of the securityContext is set to false."
+              }
+            },
+            {
+              "id": "C-0055",
+              "shortDescription": {
+                "text": "Linux hardening"
+              },
+              "fullDescription": {
+                "text": "Containers may be given more privileges than they actually need. This can increase the potential impact of a container compromise."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "help": {
+                "text": "Remediation: You can use AppArmor, Seccomp, SELinux and Linux Capabilities mechanisms to restrict containers abilities to utilize unwanted privileges."
+              }
+            },
+            {
+              "id": "C-0260",
+              "shortDescription": {
+                "text": "Firewall (CC6.1,CC6.6,CC7.2)"
+              },
+              "fullDescription": {
+                "text": "Network is monitored and protected by the following. System firewalls are configured to limit unnecessary ports, protocols and services. Firewall rules are reviewed at least annually by IT management."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "help": {
+                "text": "Remediation: Define network policies for all workloads to protect unwanted access"
+              }
+            },
+            {
+              "id": "C-0030",
+              "shortDescription": {
+                "text": "Ingress and Egress blocked"
+              },
+              "fullDescription": {
+                "text": "Disable Ingress and Egress traffic on all pods wherever possible. It is recommended to define restrictive network policy on all new pods, and then enable sources/destinations that this pod must communicate with."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "help": {
+                "text": "Remediation: Define a network policy that restricts ingress and egress connections."
+              }
+            },
+            {
+              "id": "C-0268",
+              "shortDescription": {
+                "text": "Ensure CPU requests are set"
+              },
+              "fullDescription": {
+                "text": "This control identifies all Pods for which the CPU requests are not set."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "help": {
+                "text": "Remediation: Set the CPU requests or use exception mechanism to avoid unnecessary notifications."
+              }
+            },
+            {
+              "id": "C-0269",
+              "shortDescription": {
+                "text": "Ensure memory requests are set"
+              },
+              "fullDescription": {
+                "text": "This control identifies all Pods for which the memory requests are not set."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "help": {
+                "text": "Remediation: Set the memory requests or use exception mechanism to avoid unnecessary notifications."
+              }
+            },
+            {
+              "id": "C-0018",
+              "shortDescription": {
+                "text": "Configured readiness probe"
+              },
+              "fullDescription": {
+                "text": "Readiness probe is intended to ensure that workload is ready to process network traffic. It is highly recommended to define readiness probe for every worker container. This control finds all the pods where the readiness probe is not configured."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "help": {
+                "text": "Remediation: Ensure Readiness probes are configured wherever possible."
+              }
+            },
+            {
+              "id": "C-0077",
+              "shortDescription": {
+                "text": "K8s common labels usage"
+              },
+              "fullDescription": {
+                "text": "Kubernetes common labels help manage and monitor Kubernetes cluster using different tools such as kubectl, dashboard and others in an interoperable way. Refer to https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/ for more information. This control helps you find objects that don't have any of these labels defined."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "help": {
+                "text": "Remediation: Define applicable labels or use the exception mechanism to prevent further notifications."
+              }
+            },
+            {
+              "id": "C-0263",
+              "shortDescription": {
+                "text": "Data in motion encryption - Ingress is TLS encrypted (CC6.1,CC6.6,CC6.7)"
+              },
+              "fullDescription": {
+                "text": "Transport Layer Security (TLS) is used to protect the transmission of data sent over the internet to and from the organization's application server."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "help": {
+                "text": "Remediation: The user needs to implement TLS for the Ingress resource in order to encrypt the incoming traffic"
+              }
+            },
+            {
+              "id": "C-0073",
+              "shortDescription": {
+                "text": "Naked pods"
+              },
+              "fullDescription": {
+                "text": "It is not recommended to create pods without parental Deployment, ReplicaSet, StatefulSet etc.Manual creation if pods may lead to a configuration drifts and other untracked changes in the system. Such pods won't be automatically rescheduled by Kubernetes in case of a crash or infrastructure failure. This control identifies every pod that does not have corresponding parental object."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "help": {
+                "text": "Remediation: Create necessary Deployment object for every pod making any pod a first class citizen in your IaC architecture."
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "C-0237",
+          "ruleIndex": 0,
+          "message": {
+            "text": "Ensures that all images contain some signature"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/statefulset.yaml"
+                },
+                "region": {
+                  "startLine": 18,
+                  "startColumn": 18
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0076",
+          "ruleIndex": 1,
+          "message": {
+            "text": "It is recommended to set labels that identify semantic attributes of your application or deployment. For example, { app: myapp, tier: frontend, phase: test, deployment: v3 }. These labels can used to assign policies to logical groups of the deployments as well as for presentation and tracking purposes. This control helps you find deployments without any of the expected labels."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/statefulset.yaml"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0013",
+          "ruleIndex": 2,
+          "message": {
+            "text": "Potential attackers may gain access to a container and leverage its existing privileges to conduct an attack. Therefore, it is not recommended to deploy containers with root privileges unless it is absolutely necessary. This control identifies all the pods running as root or can escalate to root."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/statefulset.yaml"
+                },
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 11
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "        securityContext:\n            runAsNonRoot: true\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "        securityContext:\n            runAsGroup: 1000\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0056",
+          "ruleIndex": 3,
+          "message": {
+            "text": "Liveness probe is intended to ensure that workload remains healthy during its entire execution lifecycle, or otherwise restrat the container. It is highly recommended to define liveness probe for every worker container. This control finds all the pods where the Liveness probe is not configured."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/statefulset.yaml"
+                },
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 11
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "        livenessProbe: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0210",
+          "ruleIndex": 4,
+          "message": {
+            "text": "Enable `docker/default` seccomp profile in your pod definitions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/statefulset.yaml"
+                },
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 11
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "        securityContext:\n            seccompProfile:\n              type: RuntimeDefault\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0017",
+          "ruleIndex": 5,
+          "message": {
+            "text": "Mutable container filesystem can be abused to inject malicious code or data into containers. Use immutable (read-only) filesystem to limit potential attacks."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/statefulset.yaml"
+                },
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 11
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "        securityContext:\n            readOnlyRootFilesystem: true\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0211",
+          "ruleIndex": 6,
+          "message": {
+            "text": "Apply Security Context to Your Pods and Containers"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/statefulset.yaml"
+                },
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 11
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "        securityContext:\n            readOnlyRootFilesystem: true\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "        securityContext:\n            runAsNonRoot: true\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "        securityContext:\n            runAsGroup: 1000\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "        securityContext:\n            capabilities:\n              drop:\n                - NET_RAW\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "        securityContext:\n            seLinuxOptions: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "        securityContext:\n            seccompProfile: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n        sysctls:\n          name: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n        sysctls:\n          value: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n        supplementalGroups: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "        securityContext:\n            allowPrivilegeEscalation: false\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0270",
+          "ruleIndex": 7,
+          "message": {
+            "text": "This control identifies all Pods for which the CPU limits are not set."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/statefulset.yaml"
+                },
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 11
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "        resources:\n            limits:\n              cpu: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0271",
+          "ruleIndex": 8,
+          "message": {
+            "text": "This control identifies all Pods for which the memory limits are not set."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/statefulset.yaml"
+                },
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 11
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "        resources:\n            limits:\n              memory: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0061",
+          "ruleIndex": 9,
+          "message": {
+            "text": "It is recommended to avoid running pods in cluster without explicit namespace assignment. This control identifies all the pods running in the default namespace."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/statefulset.yaml"
+                },
+                "region": {
+                  "startLine": 4,
+                  "startColumn": 3
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 5,
+                        "startColumn": 1,
+                        "endLine": 5,
+                        "endColumn": 1
+                      },
+                      "insertedContent": {
+                        "text": "  namespace: YOUR_NAMESPACE\n"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0016",
+          "ruleIndex": 10,
+          "message": {
+            "text": "Attackers may gain access to a container and uplift its privilege to enable excessive capabilities."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/statefulset.yaml"
+                },
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 11
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "        securityContext:\n            allowPrivilegeEscalation: false\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0055",
+          "ruleIndex": 11,
+          "message": {
+            "text": "Containers may be given more privileges than they actually need. This can increase the potential impact of a container compromise."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/statefulset.yaml"
+                },
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 11
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "        securityContext:\n            seccompProfile: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "        securityContext:\n            seLinuxOptions: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "        securityContext:\n            capabilities:\n              drop:\n                - YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0260",
+          "ruleIndex": 12,
+          "message": {
+            "text": "Network is monitored and protected by the following. System firewalls are configured to limit unnecessary ports, protocols and services. Firewall rules are reviewed at least annually by IT management."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/statefulset.yaml"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0030",
+          "ruleIndex": 13,
+          "message": {
+            "text": "Disable Ingress and Egress traffic on all pods wherever possible. It is recommended to define restrictive network policy on all new pods, and then enable sources/destinations that this pod must communicate with."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/statefulset.yaml"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0268",
+          "ruleIndex": 14,
+          "message": {
+            "text": "This control identifies all Pods for which the CPU requests are not set."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/statefulset.yaml"
+                },
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 11
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "        resources:\n            requests:\n              cpu: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0269",
+          "ruleIndex": 15,
+          "message": {
+            "text": "This control identifies all Pods for which the memory requests are not set."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/statefulset.yaml"
+                },
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 11
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "        resources:\n            requests:\n              memory: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0018",
+          "ruleIndex": 16,
+          "message": {
+            "text": "Readiness probe is intended to ensure that workload is ready to process network traffic. It is highly recommended to define readiness probe for every worker container. This control finds all the pods where the readiness probe is not configured."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/statefulset.yaml"
+                },
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 11
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/statefulset.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 21,
+                        "startColumn": 3,
+                        "endLine": 21,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "        readinessProbe: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0077",
+          "ruleIndex": 17,
+          "message": {
+            "text": "Kubernetes common labels help manage and monitor Kubernetes cluster using different tools such as kubectl, dashboard and others in an interoperable way. Refer to https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/ for more information. This control helps you find objects that don't have any of these labels defined."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/statefulset.yaml"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0263",
+          "ruleIndex": 18,
+          "message": {
+            "text": "Transport Layer Security (TLS) is used to protect the transmission of data sent over the internet to and from the organization's application server."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/ingress.yaml"
+                },
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 3
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/ingress.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 20,
+                        "startColumn": 1,
+                        "endLine": 20,
+                        "endColumn": 1
+                      },
+                      "insertedContent": {
+                        "text": "  tls: \u003cyour-tls-definition\u003e\n"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0237",
+          "ruleIndex": 0,
+          "message": {
+            "text": "Ensures that all images contain some signature"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/pod.yaml"
+                },
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 14
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0076",
+          "ruleIndex": 1,
+          "message": {
+            "text": "It is recommended to set labels that identify semantic attributes of your application or deployment. For example, { app: myapp, tier: frontend, phase: test, deployment: v3 }. These labels can used to assign policies to logical groups of the deployments as well as for presentation and tracking purposes. This control helps you find deployments without any of the expected labels."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/pod.yaml"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0013",
+          "ruleIndex": 2,
+          "message": {
+            "text": "Potential attackers may gain access to a container and leverage its existing privileges to conduct an attack. Therefore, it is not recommended to deploy containers with root privileges unless it is absolutely necessary. This control identifies all the pods running as root or can escalate to root."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/pod.yaml"
+                },
+                "region": {
+                  "startLine": 7,
+                  "startColumn": 7
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 12,
+                        "startColumn": 3,
+                        "endLine": 12,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n        runAsNonRoot: true\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 12,
+                        "startColumn": 3,
+                        "endLine": 12,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n        runAsGroup: 1000\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0056",
+          "ruleIndex": 3,
+          "message": {
+            "text": "Liveness probe is intended to ensure that workload remains healthy during its entire execution lifecycle, or otherwise restrat the container. It is highly recommended to define liveness probe for every worker container. This control finds all the pods where the Liveness probe is not configured."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/pod.yaml"
+                },
+                "region": {
+                  "startLine": 7,
+                  "startColumn": 7
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 12,
+                        "startColumn": 3,
+                        "endLine": 12,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    livenessProbe: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0210",
+          "ruleIndex": 4,
+          "message": {
+            "text": "Enable `docker/default` seccomp profile in your pod definitions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/pod.yaml"
+                },
+                "region": {
+                  "startLine": 7,
+                  "startColumn": 7
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 12,
+                        "startColumn": 3,
+                        "endLine": 12,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n        seccompProfile:\n          type: RuntimeDefault\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0017",
+          "ruleIndex": 5,
+          "message": {
+            "text": "Mutable container filesystem can be abused to inject malicious code or data into containers. Use immutable (read-only) filesystem to limit potential attacks."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/pod.yaml"
+                },
+                "region": {
+                  "startLine": 7,
+                  "startColumn": 7
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 12,
+                        "startColumn": 3,
+                        "endLine": 12,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n        readOnlyRootFilesystem: true\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0211",
+          "ruleIndex": 6,
+          "message": {
+            "text": "Apply Security Context to Your Pods and Containers"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/pod.yaml"
+                },
+                "region": {
+                  "startLine": 7,
+                  "startColumn": 7
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 12,
+                        "startColumn": 3,
+                        "endLine": 12,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n        readOnlyRootFilesystem: true\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 12,
+                        "startColumn": 3,
+                        "endLine": 12,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n        runAsNonRoot: true\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 12,
+                        "startColumn": 3,
+                        "endLine": 12,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n        runAsGroup: 1000\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 12,
+                        "startColumn": 3,
+                        "endLine": 12,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n        capabilities:\n          drop:\n            - NET_RAW\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 12,
+                        "startColumn": 3,
+                        "endLine": 12,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n        seLinuxOptions: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 12,
+                        "startColumn": 3,
+                        "endLine": 12,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n        seccompProfile: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 16,
+                        "startColumn": 1,
+                        "endLine": 16,
+                        "endColumn": 1
+                      },
+                      "insertedContent": {
+                        "text": "  securityContext:\n    sysctls:\n      name: YOUR_VALUE\n"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 16,
+                        "startColumn": 1,
+                        "endLine": 16,
+                        "endColumn": 1
+                      },
+                      "insertedContent": {
+                        "text": "  securityContext:\n    sysctls:\n      value: YOUR_VALUE\n"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 16,
+                        "startColumn": 1,
+                        "endLine": 16,
+                        "endColumn": 1
+                      },
+                      "insertedContent": {
+                        "text": "  securityContext:\n    supplementalGroups: YOUR_VALUE\n"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 12,
+                        "startColumn": 3,
+                        "endLine": 12,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n        allowPrivilegeEscalation: false\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0270",
+          "ruleIndex": 7,
+          "message": {
+            "text": "This control identifies all Pods for which the CPU limits are not set."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/pod.yaml"
+                },
+                "region": {
+                  "startLine": 7,
+                  "startColumn": 7
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 12,
+                        "startColumn": 3,
+                        "endLine": 12,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    resources:\n        limits:\n          cpu: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0271",
+          "ruleIndex": 8,
+          "message": {
+            "text": "This control identifies all Pods for which the memory limits are not set."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/pod.yaml"
+                },
+                "region": {
+                  "startLine": 7,
+                  "startColumn": 7
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 12,
+                        "startColumn": 3,
+                        "endLine": 12,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    resources:\n        limits:\n          memory: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0073",
+          "ruleIndex": 19,
+          "message": {
+            "text": "It is not recommended to create pods without parental Deployment, ReplicaSet, StatefulSet etc.Manual creation if pods may lead to a configuration drifts and other untracked changes in the system. Such pods won't be automatically rescheduled by Kubernetes in case of a crash or infrastructure failure. This control identifies every pod that does not have corresponding parental object."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/pod.yaml"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0061",
+          "ruleIndex": 9,
+          "message": {
+            "text": "It is recommended to avoid running pods in cluster without explicit namespace assignment. This control identifies all the pods running in the default namespace."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/pod.yaml"
+                },
+                "region": {
+                  "startLine": 4,
+                  "startColumn": 3
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 5,
+                        "startColumn": 1,
+                        "endLine": 5,
+                        "endColumn": 1
+                      },
+                      "insertedContent": {
+                        "text": "  namespace: YOUR_NAMESPACE\n"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0016",
+          "ruleIndex": 10,
+          "message": {
+            "text": "Attackers may gain access to a container and uplift its privilege to enable excessive capabilities."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/pod.yaml"
+                },
+                "region": {
+                  "startLine": 7,
+                  "startColumn": 7
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 12,
+                        "startColumn": 3,
+                        "endLine": 12,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n        allowPrivilegeEscalation: false\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0055",
+          "ruleIndex": 11,
+          "message": {
+            "text": "Containers may be given more privileges than they actually need. This can increase the potential impact of a container compromise."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/pod.yaml"
+                },
+                "region": {
+                  "startLine": 7,
+                  "startColumn": 7
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 12,
+                        "startColumn": 3,
+                        "endLine": 12,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n        seccompProfile: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 12,
+                        "startColumn": 3,
+                        "endLine": 12,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n        seLinuxOptions: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 12,
+                        "startColumn": 3,
+                        "endLine": 12,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n        capabilities:\n          drop:\n            - YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0260",
+          "ruleIndex": 12,
+          "message": {
+            "text": "Network is monitored and protected by the following. System firewalls are configured to limit unnecessary ports, protocols and services. Firewall rules are reviewed at least annually by IT management."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/pod.yaml"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0030",
+          "ruleIndex": 13,
+          "message": {
+            "text": "Disable Ingress and Egress traffic on all pods wherever possible. It is recommended to define restrictive network policy on all new pods, and then enable sources/destinations that this pod must communicate with."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/pod.yaml"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0268",
+          "ruleIndex": 14,
+          "message": {
+            "text": "This control identifies all Pods for which the CPU requests are not set."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/pod.yaml"
+                },
+                "region": {
+                  "startLine": 7,
+                  "startColumn": 7
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 12,
+                        "startColumn": 3,
+                        "endLine": 12,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    resources:\n        requests:\n          cpu: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0269",
+          "ruleIndex": 15,
+          "message": {
+            "text": "This control identifies all Pods for which the memory requests are not set."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/pod.yaml"
+                },
+                "region": {
+                  "startLine": 7,
+                  "startColumn": 7
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 12,
+                        "startColumn": 3,
+                        "endLine": 12,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    resources:\n        requests:\n          memory: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0018",
+          "ruleIndex": 16,
+          "message": {
+            "text": "Readiness probe is intended to ensure that workload is ready to process network traffic. It is highly recommended to define readiness probe for every worker container. This control finds all the pods where the readiness probe is not configured."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/pod.yaml"
+                },
+                "region": {
+                  "startLine": 7,
+                  "startColumn": 7
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/pod.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 12,
+                        "startColumn": 3,
+                        "endLine": 12,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "    readinessProbe: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0077",
+          "ruleIndex": 17,
+          "message": {
+            "text": "Kubernetes common labels help manage and monitor Kubernetes cluster using different tools such as kubectl, dashboard and others in an interoperable way. Refer to https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/ for more information. This control helps you find objects that don't have any of these labels defined."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/pod.yaml"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0237",
+          "ruleIndex": 0,
+          "message": {
+            "text": "Ensures that all images contain some signature"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/test-pod2.yaml"
+                },
+                "region": {
+                  "startLine": 13,
+                  "startColumn": 12
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0076",
+          "ruleIndex": 1,
+          "message": {
+            "text": "It is recommended to set labels that identify semantic attributes of your application or deployment. For example, { app: myapp, tier: frontend, phase: test, deployment: v3 }. These labels can used to assign policies to logical groups of the deployments as well as for presentation and tracking purposes. This control helps you find deployments without any of the expected labels."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/test-pod2.yaml"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0013",
+          "ruleIndex": 2,
+          "message": {
+            "text": "Potential attackers may gain access to a container and leverage its existing privileges to conduct an attack. Therefore, it is not recommended to deploy containers with root privileges unless it is absolutely necessary. This control identifies all the pods running as root or can escalate to root."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/test-pod2.yaml"
+                },
+                "region": {
+                  "startLine": 13,
+                  "startColumn": 5
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 26,
+                        "startColumn": 3,
+                        "endLine": 26,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "  securityContext:\n      runAsNonRoot: true\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 26,
+                        "startColumn": 3,
+                        "endLine": 26,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "  securityContext:\n      runAsGroup: 1000\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0056",
+          "ruleIndex": 3,
+          "message": {
+            "text": "Liveness probe is intended to ensure that workload remains healthy during its entire execution lifecycle, or otherwise restrat the container. It is highly recommended to define liveness probe for every worker container. This control finds all the pods where the Liveness probe is not configured."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/test-pod2.yaml"
+                },
+                "region": {
+                  "startLine": 13,
+                  "startColumn": 5
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 26,
+                        "startColumn": 3,
+                        "endLine": 26,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "  livenessProbe: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0210",
+          "ruleIndex": 4,
+          "message": {
+            "text": "Enable `docker/default` seccomp profile in your pod definitions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/test-pod2.yaml"
+                },
+                "region": {
+                  "startLine": 13,
+                  "startColumn": 5
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 26,
+                        "startColumn": 3,
+                        "endLine": 26,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "  securityContext:\n      seccompProfile:\n        type: RuntimeDefault\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0017",
+          "ruleIndex": 5,
+          "message": {
+            "text": "Mutable container filesystem can be abused to inject malicious code or data into containers. Use immutable (read-only) filesystem to limit potential attacks."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/test-pod2.yaml"
+                },
+                "region": {
+                  "startLine": 13,
+                  "startColumn": 5
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 26,
+                        "startColumn": 3,
+                        "endLine": 26,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "  securityContext:\n      readOnlyRootFilesystem: true\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0211",
+          "ruleIndex": 6,
+          "message": {
+            "text": "Apply Security Context to Your Pods and Containers"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/test-pod2.yaml"
+                },
+                "region": {
+                  "startLine": 13,
+                  "startColumn": 5
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 26,
+                        "startColumn": 3,
+                        "endLine": 26,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "  securityContext:\n      readOnlyRootFilesystem: true\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 26,
+                        "startColumn": 3,
+                        "endLine": 26,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "  securityContext:\n      runAsNonRoot: true\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 26,
+                        "startColumn": 3,
+                        "endLine": 26,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "  securityContext:\n      runAsGroup: 1000\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 26,
+                        "startColumn": 3,
+                        "endLine": 26,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "  securityContext:\n      capabilities:\n        drop:\n          - NET_RAW\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 26,
+                        "startColumn": 3,
+                        "endLine": 26,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "  securityContext:\n      seLinuxOptions: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 26,
+                        "startColumn": 3,
+                        "endLine": 26,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "  securityContext:\n      seccompProfile: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 34,
+                        "startColumn": 3,
+                        "endLine": 34,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "                 fsGroup: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 34,
+                        "startColumn": 3,
+                        "endLine": 34,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "                 fsGroupChangePolicy: Always\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 34,
+                        "startColumn": 3,
+                        "endLine": 34,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "                 sysctls:\n                     name: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 34,
+                        "startColumn": 3,
+                        "endLine": 34,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "                 sysctls:\n                     value: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 34,
+                        "startColumn": 3,
+                        "endLine": 34,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "                 supplementalGroups: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 26,
+                        "startColumn": 3,
+                        "endLine": 26,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "  securityContext:\n      allowPrivilegeEscalation: false\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0270",
+          "ruleIndex": 7,
+          "message": {
+            "text": "This control identifies all Pods for which the CPU limits are not set."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/test-pod2.yaml"
+                },
+                "region": {
+                  "startLine": 19,
+                  "startColumn": 16
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 20,
+                        "startColumn": 5,
+                        "endLine": 20,
+                        "endColumn": 5
+                      },
+                      "insertedContent": {
+                        "text": "           limits:\n                 cpu: YOUR_VALUE\n    "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0271",
+          "ruleIndex": 8,
+          "message": {
+            "text": "This control identifies all Pods for which the memory limits are not set."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/test-pod2.yaml"
+                },
+                "region": {
+                  "startLine": 19,
+                  "startColumn": 16
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 20,
+                        "startColumn": 5,
+                        "endLine": 20,
+                        "endColumn": 5
+                      },
+                      "insertedContent": {
+                        "text": "           limits:\n                 memory: YOUR_VALUE\n    "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0073",
+          "ruleIndex": 19,
+          "message": {
+            "text": "It is not recommended to create pods without parental Deployment, ReplicaSet, StatefulSet etc.Manual creation if pods may lead to a configuration drifts and other untracked changes in the system. Such pods won't be automatically rescheduled by Kubernetes in case of a crash or infrastructure failure. This control identifies every pod that does not have corresponding parental object."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/test-pod2.yaml"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0061",
+          "ruleIndex": 9,
+          "message": {
+            "text": "It is recommended to avoid running pods in cluster without explicit namespace assignment. This control identifies all the pods running in the default namespace."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/test-pod2.yaml"
+                },
+                "region": {
+                  "startLine": 8,
+                  "startColumn": 14
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0016",
+          "ruleIndex": 10,
+          "message": {
+            "text": "Attackers may gain access to a container and uplift its privilege to enable excessive capabilities."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/test-pod2.yaml"
+                },
+                "region": {
+                  "startLine": 13,
+                  "startColumn": 5
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 26,
+                        "startColumn": 3,
+                        "endLine": 26,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "  securityContext:\n      allowPrivilegeEscalation: false\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0055",
+          "ruleIndex": 11,
+          "message": {
+            "text": "Containers may be given more privileges than they actually need. This can increase the potential impact of a container compromise."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/test-pod2.yaml"
+                },
+                "region": {
+                  "startLine": 13,
+                  "startColumn": 5
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 26,
+                        "startColumn": 3,
+                        "endLine": 26,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "  securityContext:\n      seccompProfile: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 26,
+                        "startColumn": 3,
+                        "endLine": 26,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "  securityContext:\n      seLinuxOptions: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 26,
+                        "startColumn": 3,
+                        "endLine": 26,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "  securityContext:\n      capabilities:\n        drop:\n          - YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0260",
+          "ruleIndex": 12,
+          "message": {
+            "text": "Network is monitored and protected by the following. System firewalls are configured to limit unnecessary ports, protocols and services. Firewall rules are reviewed at least annually by IT management."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/test-pod2.yaml"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0030",
+          "ruleIndex": 13,
+          "message": {
+            "text": "Disable Ingress and Egress traffic on all pods wherever possible. It is recommended to define restrictive network policy on all new pods, and then enable sources/destinations that this pod must communicate with."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/test-pod2.yaml"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0268",
+          "ruleIndex": 14,
+          "message": {
+            "text": "This control identifies all Pods for which the CPU requests are not set."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/test-pod2.yaml"
+                },
+                "region": {
+                  "startLine": 19,
+                  "startColumn": 16
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 20,
+                        "startColumn": 5,
+                        "endLine": 20,
+                        "endColumn": 5
+                      },
+                      "insertedContent": {
+                        "text": "           requests:\n                 cpu: YOUR_VALUE\n    "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0269",
+          "ruleIndex": 15,
+          "message": {
+            "text": "This control identifies all Pods for which the memory requests are not set."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/test-pod2.yaml"
+                },
+                "region": {
+                  "startLine": 19,
+                  "startColumn": 16
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 20,
+                        "startColumn": 5,
+                        "endLine": 20,
+                        "endColumn": 5
+                      },
+                      "insertedContent": {
+                        "text": "           requests:\n                 memory: YOUR_VALUE\n    "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0018",
+          "ruleIndex": 16,
+          "message": {
+            "text": "Readiness probe is intended to ensure that workload is ready to process network traffic. It is highly recommended to define readiness probe for every worker container. This control finds all the pods where the readiness probe is not configured."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/test-pod2.yaml"
+                },
+                "region": {
+                  "startLine": 13,
+                  "startColumn": 5
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/test-pod2.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 26,
+                        "startColumn": 3,
+                        "endLine": 26,
+                        "endColumn": 3
+                      },
+                      "insertedContent": {
+                        "text": "  readinessProbe: YOUR_VALUE\n  "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0077",
+          "ruleIndex": 17,
+          "message": {
+            "text": "Kubernetes common labels help manage and monitor Kubernetes cluster using different tools such as kubectl, dashboard and others in an interoperable way. Refer to https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/ for more information. This control helps you find objects that don't have any of these labels defined."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/test-pod2.yaml"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0237",
+          "ruleIndex": 0,
+          "message": {
+            "text": "Ensures that all images contain some signature"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/nginx.yaml"
+                },
+                "region": {
+                  "startLine": 21,
+                  "startColumn": 18
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0013",
+          "ruleIndex": 2,
+          "message": {
+            "text": "Potential attackers may gain access to a container and leverage its existing privileges to conduct an attack. Therefore, it is not recommended to deploy containers with root privileges unless it is absolutely necessary. This control identifies all the pods running as root or can escalate to root."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/nginx.yaml"
+                },
+                "region": {
+                  "startLine": 21,
+                  "startColumn": 11
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 27,
+                        "startColumn": 7,
+                        "endLine": 27,
+                        "endColumn": 7
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n            runAsNonRoot: true\n      "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 27,
+                        "startColumn": 7,
+                        "endLine": 27,
+                        "endColumn": 7
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n            runAsGroup: 1000\n      "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0056",
+          "ruleIndex": 3,
+          "message": {
+            "text": "Liveness probe is intended to ensure that workload remains healthy during its entire execution lifecycle, or otherwise restrat the container. It is highly recommended to define liveness probe for every worker container. This control finds all the pods where the Liveness probe is not configured."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/nginx.yaml"
+                },
+                "region": {
+                  "startLine": 21,
+                  "startColumn": 11
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 27,
+                        "startColumn": 7,
+                        "endLine": 27,
+                        "endColumn": 7
+                      },
+                      "insertedContent": {
+                        "text": "    livenessProbe: YOUR_VALUE\n      "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0210",
+          "ruleIndex": 4,
+          "message": {
+            "text": "Enable `docker/default` seccomp profile in your pod definitions."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/nginx.yaml"
+                },
+                "region": {
+                  "startLine": 21,
+                  "startColumn": 11
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 27,
+                        "startColumn": 7,
+                        "endLine": 27,
+                        "endColumn": 7
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n            seccompProfile:\n              type: RuntimeDefault\n      "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0017",
+          "ruleIndex": 5,
+          "message": {
+            "text": "Mutable container filesystem can be abused to inject malicious code or data into containers. Use immutable (read-only) filesystem to limit potential attacks."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/nginx.yaml"
+                },
+                "region": {
+                  "startLine": 21,
+                  "startColumn": 11
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 27,
+                        "startColumn": 7,
+                        "endLine": 27,
+                        "endColumn": 7
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n            readOnlyRootFilesystem: true\n      "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0211",
+          "ruleIndex": 6,
+          "message": {
+            "text": "Apply Security Context to Your Pods and Containers"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/nginx.yaml"
+                },
+                "region": {
+                  "startLine": 21,
+                  "startColumn": 11
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 27,
+                        "startColumn": 7,
+                        "endLine": 27,
+                        "endColumn": 7
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n            readOnlyRootFilesystem: true\n      "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 27,
+                        "startColumn": 7,
+                        "endLine": 27,
+                        "endColumn": 7
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n            runAsNonRoot: true\n      "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 27,
+                        "startColumn": 7,
+                        "endLine": 27,
+                        "endColumn": 7
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n            runAsGroup: 1000\n      "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 27,
+                        "startColumn": 7,
+                        "endLine": 27,
+                        "endColumn": 7
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n            capabilities:\n              drop:\n                - NET_RAW\n      "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 27,
+                        "startColumn": 7,
+                        "endLine": 27,
+                        "endColumn": 7
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n            seLinuxOptions: YOUR_VALUE\n      "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 27,
+                        "startColumn": 7,
+                        "endLine": 27,
+                        "endColumn": 7
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n            seccompProfile: YOUR_VALUE\n      "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 31,
+                        "startColumn": 1,
+                        "endLine": 31,
+                        "endColumn": 1
+                      },
+                      "insertedContent": {
+                        "text": "      securityContext:\n        sysctls:\n          name: YOUR_VALUE\n"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 31,
+                        "startColumn": 1,
+                        "endLine": 31,
+                        "endColumn": 1
+                      },
+                      "insertedContent": {
+                        "text": "      securityContext:\n        sysctls:\n          value: YOUR_VALUE\n"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 31,
+                        "startColumn": 1,
+                        "endLine": 31,
+                        "endColumn": 1
+                      },
+                      "insertedContent": {
+                        "text": "      securityContext:\n        supplementalGroups: YOUR_VALUE\n"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 27,
+                        "startColumn": 7,
+                        "endLine": 27,
+                        "endColumn": 7
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n            allowPrivilegeEscalation: false\n      "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0270",
+          "ruleIndex": 7,
+          "message": {
+            "text": "This control identifies all Pods for which the CPU limits are not set."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/nginx.yaml"
+                },
+                "region": {
+                  "startLine": 26,
+                  "startColumn": 22
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 27,
+                        "startColumn": 7,
+                        "endLine": 27,
+                        "endColumn": 7
+                      },
+                      "insertedContent": {
+                        "text": "               limits:\n                       cpu: YOUR_VALUE\n      "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0271",
+          "ruleIndex": 8,
+          "message": {
+            "text": "This control identifies all Pods for which the memory limits are not set."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/nginx.yaml"
+                },
+                "region": {
+                  "startLine": 26,
+                  "startColumn": 22
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 27,
+                        "startColumn": 7,
+                        "endLine": 27,
+                        "endColumn": 7
+                      },
+                      "insertedContent": {
+                        "text": "               limits:\n                       memory: YOUR_VALUE\n      "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0061",
+          "ruleIndex": 9,
+          "message": {
+            "text": "It is recommended to avoid running pods in cluster without explicit namespace assignment. This control identifies all the pods running in the default namespace."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/nginx.yaml"
+                },
+                "region": {
+                  "startLine": 4,
+                  "startColumn": 3
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 8,
+                        "startColumn": 1,
+                        "endLine": 8,
+                        "endColumn": 1
+                      },
+                      "insertedContent": {
+                        "text": "  namespace: YOUR_NAMESPACE\n"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0016",
+          "ruleIndex": 10,
+          "message": {
+            "text": "Attackers may gain access to a container and uplift its privilege to enable excessive capabilities."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/nginx.yaml"
+                },
+                "region": {
+                  "startLine": 21,
+                  "startColumn": 11
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 27,
+                        "startColumn": 7,
+                        "endLine": 27,
+                        "endColumn": 7
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n            allowPrivilegeEscalation: false\n      "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0055",
+          "ruleIndex": 11,
+          "message": {
+            "text": "Containers may be given more privileges than they actually need. This can increase the potential impact of a container compromise."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/nginx.yaml"
+                },
+                "region": {
+                  "startLine": 21,
+                  "startColumn": 11
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 27,
+                        "startColumn": 7,
+                        "endLine": 27,
+                        "endColumn": 7
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n            seccompProfile: YOUR_VALUE\n      "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 27,
+                        "startColumn": 7,
+                        "endLine": 27,
+                        "endColumn": 7
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n            seLinuxOptions: YOUR_VALUE\n      "
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 27,
+                        "startColumn": 7,
+                        "endLine": 27,
+                        "endColumn": 7
+                      },
+                      "insertedContent": {
+                        "text": "    securityContext:\n            capabilities:\n              drop:\n                - YOUR_VALUE\n      "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0260",
+          "ruleIndex": 12,
+          "message": {
+            "text": "Network is monitored and protected by the following. System firewalls are configured to limit unnecessary ports, protocols and services. Firewall rules are reviewed at least annually by IT management."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/nginx.yaml"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0030",
+          "ruleIndex": 13,
+          "message": {
+            "text": "Disable Ingress and Egress traffic on all pods wherever possible. It is recommended to define restrictive network policy on all new pods, and then enable sources/destinations that this pod must communicate with."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/nginx.yaml"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0268",
+          "ruleIndex": 14,
+          "message": {
+            "text": "This control identifies all Pods for which the CPU requests are not set."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/nginx.yaml"
+                },
+                "region": {
+                  "startLine": 26,
+                  "startColumn": 22
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 27,
+                        "startColumn": 7,
+                        "endLine": 27,
+                        "endColumn": 7
+                      },
+                      "insertedContent": {
+                        "text": "               requests:\n                       cpu: YOUR_VALUE\n      "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0269",
+          "ruleIndex": 15,
+          "message": {
+            "text": "This control identifies all Pods for which the memory requests are not set."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/nginx.yaml"
+                },
+                "region": {
+                  "startLine": 26,
+                  "startColumn": 22
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 27,
+                        "startColumn": 7,
+                        "endLine": 27,
+                        "endColumn": 7
+                      },
+                      "insertedContent": {
+                        "text": "               requests:\n                       memory: YOUR_VALUE\n      "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0018",
+          "ruleIndex": 16,
+          "message": {
+            "text": "Readiness probe is intended to ensure that workload is ready to process network traffic. It is highly recommended to define readiness probe for every worker container. This control finds all the pods where the readiness probe is not configured."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/nginx.yaml"
+                },
+                "region": {
+                  "startLine": 21,
+                  "startColumn": 11
+                }
+              }
+            }
+          ],
+          "fixes": [
+            {
+              "artifactChanges": [
+                {
+                  "artifactLocation": {
+                    "uri": "templates/nginx.yaml"
+                  },
+                  "replacements": [
+                    {
+                      "deletedRegion": {
+                        "startLine": 27,
+                        "startColumn": 7,
+                        "endLine": 27,
+                        "endColumn": 7
+                      },
+                      "insertedContent": {
+                        "text": "    readinessProbe: YOUR_VALUE\n      "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C-0077",
+          "ruleIndex": 17,
+          "message": {
+            "text": "Kubernetes common labels help manage and monitor Kubernetes cluster using different tools such as kubectl, dashboard and others in an interoperable way. Refer to https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/ for more information. This control helps you find objects that don't have any of these labels defined."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "templates/nginx.yaml"
+                },
+                "region": {
+                  "startLine": 1,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
