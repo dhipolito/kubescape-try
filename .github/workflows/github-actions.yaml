@@ -12,7 +12,3 @@ jobs:
         with:
           format: sarif
           outputFile: results
-      - uses: github/codeql-action/upload-sarif@v3
-        name: Upload scan results to Github Code Scanning
-        with:
-          sarif_file: results.sarif
