@@ -1,6 +1,6 @@
 name: Kubescape scan manifest files
 run-name: Scan manifest files
-on: [push]
+on: [push, pull_request]
 jobs:
   kubescape:
     runs-on: ubuntu-latest
