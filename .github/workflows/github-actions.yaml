@@ -3,6 +3,8 @@ run-name: Scan manifest files
 on: [push, pull_request]
 jobs:
   kubescape:
+    permissions:
+      security-events: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
